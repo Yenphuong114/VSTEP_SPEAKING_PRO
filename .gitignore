@@ -1,0 +1,73 @@
+# ==============================================================================
+# VSTEP Speaking Pro - Git Ignore Configuration
+# ==============================================================================
+
+# --- Yêu cầu loại trừ tài liệu cá nhân / bài báo ---
+VSTEP_Speaking_Pro_De_Cuong_Va_Tu_Lieu_Bai_Bao.docx
+~$*
+*.docx
+
+# --- Môi trường & Khóa bảo mật (Environment & Secrets) ---
+.env
+.env.*
+!.env.example
+*.env
+back_end/.env
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# --- Môi trường ảo Python (Virtual Environments) ---
+.venv/
+venv/
+ENV/
+env/
+back_end/.venv/
+
+# --- Node & Frontend Build (React/Vite) ---
+node_modules/
+vstep_web_react/node_modules/
+vstep_web_react/dist/
+dist-ssr/
+*.local
+
+# --- Logs & File tạm ---
+error_log.txt
+back_end/error_log.txt
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+temp_uploads/
+back_end/temp_uploads/
+
+# --- IDEs & OS specific ---
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+.DS_Store
+Thumbs.db

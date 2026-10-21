@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="vi" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VSTEP Speaking Pro — AI Assessment Suite</title>
+    <meta name="description" content="Công cụ chấm điểm Speaking VSTEP bằng AI dành cho giảng viên.">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <link rel="stylesheet" href="style.css?v=4.0">
+</head>
+<body>
+
+<!-- LOGIN OVERLAY -->
+<div id="loginOverlay">
+    <div class="login-card" id="loginCard">
+        <div class="login-logo">
+            <div class="login-logo-icon"><i class="fa-solid fa-microphone-lines"></i></div>
+            <div>
+                <div class="login-title">VSTEP Speaking Pro</div>
+                <div class="login-subtitle">AI Assessment Suite v3.0</div>
+            </div>
+        </div>
+        <label class="login-label" for="loginPasswordInput" data-i18n="login_password_label">Mật khẩu giảng viên</label>
+        <input type="password" id="loginPasswordInput" class="login-input" placeholder="Nhập mật khẩu..." data-i18n-placeholder="login_password_placeholder">
+        <button id="loginBtn" class="login-btn">
+            <i class="fa-solid fa-right-to-bracket me-2"></i><span data-i18n="login_btn">Đăng nhập</span>
+        </button>
+        <div class="login-error" id="loginError">
+            <i class="fa-solid fa-circle-xmark me-2"></i><span id="loginErrorMsg" data-i18n="login_error_wrong">Mật khẩu không đúng. Vui lòng thử lại.</span>
+        </div>
+    </div>
+</div>
+
+<!-- Mobile toggle -->
+<button class="sb-mobile-toggle" id="sbMobileToggle"><i class="fa-solid fa-bars"></i></button>
+
+<!-- APP SHELL -->
+<div class="app-shell">
+
+    <!-- LEFT SIDEBAR -->
+    <aside id="mainSidebar">
+        <div class="sb-logo">
+            <div class="sb-logo-icon"><i class="fa-solid fa-microphone-lines"></i></div>
+            <div class="sb-logo-text">
+                <strong>VSTEP Speaking Pro</strong>
+                <small>AI Assessment Suite</small>
+            </div>
+            <span class="sb-version">v3.0</span>
+        </div>
+        <div class="sb-user">
+            <div class="sb-avatar" id="sbAvatar">A</div>
+            <div class="sb-user-info">
+                <div style="font-size:.8rem;font-weight:600;color:#e2e8f0;" data-i18n="sidebar_user_label">Giảng viên</div>
+                <span class="sb-role-badge admin" id="sbRoleBadge">&#128081; Admin</span>
+            </div>
+        </div>
+        <nav class="sb-nav">
+            <div class="sb-section-label" data-i18n="sidebar_section_tools">Công cụ AI</div>
+            <div class="sb-item active" id="navGrade" onclick="navigateTo('grade')">
+                <span class="sb-item-icon"><i class="fa-solid fa-microphone-lines"></i></span>
+                <span class="sb-item-label" data-i18n="nav_grade">Chấm điểm đơn</span>
+            </div>
+            <div class="sb-item" id="navBatch" onclick="navigateTo('batch')">
+                <span class="sb-item-icon"><i class="fa-solid fa-layer-group"></i></span>
+                <span class="sb-item-label" data-i18n="nav_batch">Chấm hàng loạt</span>
+            </div>
+            <div class="sb-item" id="navCompare" onclick="navigateTo('compare')">
+                <span class="sb-item-icon"><i class="fa-solid fa-scale-balanced"></i></span>
+                <span class="sb-item-label" data-i18n="nav_compare">So sánh AI vs GV</span>
+                <span class="sb-item-badge" data-i18n="badge_new">Mới</span>
+            </div>
+            <div class="sb-item" id="navHistory" onclick="navigateTo('history')">
+                <span class="sb-item-icon"><i class="fa-solid fa-clock-rotate-left"></i></span>
+                <span class="sb-item-label" data-i18n="nav_history">Lịch sử</span>
+            </div>
+            <div class="sb-section-label mt-3" data-i18n="sidebar_section_config">Cấu hình</div>
+            <div class="sb-item admin-only" id="navRubric" data-bs-toggle="modal" data-bs-target="#rubricModal" style="cursor:pointer;">
+                <span class="sb-item-icon"><i class="fa-solid fa-sliders"></i></span>
+                <span class="sb-item-label" data-i18n="nav_rubric">Cấu hình Rubric</span>
+                <span style="font-size:.65rem;color:#94a3b8;"><i class="fa-solid fa-lock"></i></span>
+            </div>
+        </nav>
+        <div class="sb-footer">
+            <button class="sb-footer-btn" id="themeToggle">
+                <i class="fa-solid fa-moon" id="themeIcon"></i>
+                <span data-i18n="theme_toggle_title">Chế độ sáng/tối</span>
+            </button>
+            <div class="dropdown">
+                <button class="sb-footer-btn" type="button" data-bs-toggle="dropdown">
+                    <span id="currentLangFlag">&#127468;&#127463;</span>
+                    <span id="currentLangCode" style="font-weight:700;">EN</span>
+                    <span style="font-size:.7rem;color:#94a3b8;margin-left:auto;"><i class="fa-solid fa-chevron-up"></i></span>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end shadow-lg border-0 rounded-3 mb-2 py-2" style="min-width:170px;">
+                    <li><button class="dropdown-item d-flex align-items-center justify-content-between py-2 px-3" type="button" id="btnLangEN"><span>&#127468;&#127463; English (UK/US)</span><i class="fa-solid fa-check text-primary" id="checkLangEN"></i></button></li>
+                    <li><button class="dropdown-item d-flex align-items-center justify-content-between py-2 px-3" type="button" id="btnLangVI"><span>&#127487;&#127475; Tiếng Việt</span><i class="fa-solid fa-check text-primary d-none" id="checkLangVI"></i></button></li>
+                </ul>
+            </div>
+            <button class="sb-footer-btn danger" id="logoutBtn">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                <span data-i18n="logout_btn">Đăng xuất</span>
+            </button>
+        </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <div id="mainContent">
+
+        <!-- PAGE: GRADE -->
+        <section class="page-section active" id="pageGrade">
+            <div class="page-header">
+                <h1><i class="fa-solid fa-microphone-lines me-2 text-primary"></i><span data-i18n="app_title">VSTEP Speaking Pro</span></h1>
+                <p data-i18n="page_grade_subtitle">Chấm điểm nói VSTEP bằng AI — Grammar, Vocabulary, Pronunciation, Fluency</p>
+            </div>
+            <div class="page-body">
+                <div class="row g-4">
+                    <div class="col-lg-7">
+                        <div class="custom-card shadow-sm h-100">
+                            <ul class="nav custom-tabs" id="myTab" role="tablist">
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#feedback" type="button" id="tabFeedback">
+                                        <i class="fa-solid fa-chart-pie me-2"></i><span data-i18n="tab_feedback">Kết quả Đánh giá</span>
+                                    </button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#historyTab" type="button" id="tabHistory">
+                                        <i class="fa-solid fa-clock-rotate-left me-2"></i><span data-i18n="tab_history">Lịch sử</span>
+                                    </button>
+                                </li>
+                            </ul>
+                            <div class="tab-content p-4" id="myTabContent">
+                                <div class="tab-pane fade show active" id="feedback">
+                                    <div class="d-flex justify-content-between align-items-center mb-4 pb-3 border-bottom custom-border">
+                                        <h4 class="mb-0 fw-bold primary-gradient-text"><span data-i18n="overall_score_label">Điểm tổng quan:</span> <span id="overallScore" class="fs-2 ms-2">--/10</span></h4>
+                                    </div>
+                                    <div class="row text-center mb-4 g-3">
+                                        <div class="col"><div class="score-box p-3 rounded shadow-sm"><div class="dynamic-text small text-uppercase fw-bold mb-1" data-i18n="criterion_grammar">Ngữ pháp</div><div class="fs-4 fw-bold text-primary" id="scoreGrammar">-</div></div></div>
+                                        <div class="col"><div class="score-box p-3 rounded shadow-sm"><div class="dynamic-text small text-uppercase fw-bold mb-1" data-i18n="criterion_vocab">Từ vựng</div><div class="fs-4 fw-bold text-primary" id="scoreVocab">-</div></div></div>
+                                        <div class="col"><div class="score-box p-3 rounded shadow-sm"><div class="dynamic-text small text-uppercase fw-bold mb-1" data-i18n="criterion_pronun">Phát âm</div><div class="fs-4 fw-bold text-primary" id="scorePronun">-</div></div></div>
+                                        <div class="col"><div class="score-box p-3 rounded shadow-sm"><div class="dynamic-text small text-uppercase fw-bold mb-1" data-i18n="criterion_fluency">Trôi chảy</div><div class="fs-4 fw-bold text-primary" id="scoreFluency">-</div></div></div>
+                                    </div>
+                                    <h5 class="fw-bold mb-3 dynamic-text"><i class="fa-solid fa-wand-magic-sparkles me-2 text-warning"></i><span data-i18n="feedback_header">Nhận xét &amp; Khắc phục:</span></h5>
+                                    <div id="detailedFeedback" class="feedback-container p-3 rounded mb-4">
+                                        <div class="text-center my-5 dynamic-text opacity-75">
+                                            <i class="fa-solid fa-clipboard-list fs-1 mb-3"></i>
+                                            <p data-i18n="feedback_empty">Hoàn thành bài thi để xem AI phân tích chi tiết lỗi sai của bạn tại đây.</p>
+                                        </div>
+                                    </div>
+                                    <h5 class="fw-bold mb-3 dynamic-text"><i class="fa-solid fa-star me-2 text-warning"></i><span data-i18n="model_answer_header">Bài nói mẫu (Band 9-10):</span></h5>
+                                    <div id="modelAnswer" class="model-answer-box p-4 rounded shadow-sm">
+                                        <p class="mb-0 fst-italic dynamic-text opacity-75" data-i18n="model_answer_empty">Bài nói mẫu sẽ hiển thị sau khi bạn nộp bài...</p>
+                                    </div>
+                                    <div class="text-center mt-4">
+                                        <button id="btnRetry" class="btn btn-outline-primary px-4 py-2 rounded-pill fw-bold shadow-sm">
+                                            <i class="fa-solid fa-rotate-right me-2"></i><span data-i18n="btn_retry">Luyện tập đề khác</span>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="historyTab">
+                                    <div id="historyContainer" class="history-list">
+                                        <div class="text-center my-5 dynamic-text opacity-75">
+                                            <i class="fa-solid fa-folder-open fs-1 mb-3"></i>
+                                            <p data-i18n="history_empty">Chưa có dữ liệu lịch sử luyện tập.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-5">
+                        <div class="custom-card shadow-sm h-100 p-4 d-flex flex-column">
+                            <div class="d-flex justify-content-between align-items-center mb-4">
+                                <h5 class="mb-0 fw-bold dynamic-text"><i class="fa-solid fa-laptop-code me-2 text-primary"></i><span data-i18n="practice_area_title">Khu vực làm bài</span></h5>
+                            </div>
+                            <div class="mb-4">
+                                <label class="form-label fw-bold dynamic-text small text-uppercase" data-i18n="exam_part_label">Chọn Phần Thi</label>
+                                <select id="examPartSelect" class="form-select custom-select shadow-sm">
+                                    <option value="part1" selected data-i18n="exam_part_1">Part 1: Social Interaction (3 Phút)</option>
+                                    <option value="part2" data-i18n="exam_part_2">Part 2: Solution Discussion (3 Phút)</option>
+                                    <option value="part3" data-i18n="exam_part_3">Part 3: Topic Development (4 Phút)</option>
+                                </select>
+                            </div>
+                            <div class="topic-box p-3 rounded shadow-sm mb-4 position-relative">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <span id="topicBadge" class="badge custom-badge px-3 py-2">TOPIC</span>
+                                    <small class="text-muted fst-italic dynamic-text opacity-75" style="font-size:.75rem;" data-i18n="topic_hint"><kbd>Enter</kbd> để máy nhận đề</small>
+                                </div>
+                                <textarea id="topicInput" class="form-control custom-textarea dynamic-text fw-medium fs-6 lh-base shadow-none" rows="4">Describe a time when you had to make a difficult decision. What was the situation and what did you decide?</textarea>
+                            </div>
+                            <div class="transcript-box p-3 rounded mb-4 shadow-sm" id="transcriptBox" style="display:none;">
+                                <span class="badge bg-danger mb-2"><i class="fa-solid fa-satellite-dish me-1"></i><span data-i18n="live_listening">AI đang nghe...</span></span>
+                                <p id="liveText" class="mb-0 mt-1 lh-base fst-italic dynamic-text opacity-75" data-i18n="live_waiting">Đang đợi giọng nói...</p>
+                            </div>
+                            <div class="timer-container text-center mb-4 p-4 rounded shadow-sm flex-grow-1 d-flex flex-column justify-content-center">
+                                <div id="visualizer" class="visualizer mb-3 d-none">
+                                    <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
+                                </div>
+                                <h1 id="timerDisplay" class="display-1 fw-bold timer-text mb-0">03:00</h1>
+                            </div>
+                            <div class="d-grid gap-3 mt-auto">
+                                <button id="btnRecord" class="btn btn-primary-custom btn-lg py-3 rounded-pill fw-bold shadow">
+                                    <i class="fa-solid fa-microphone fs-4 me-2"></i><span id="btnRecordText" data-i18n="btn_record_start">Bắt đầu thu âm</span>
+                                </button>
+                                <input type="file" id="audioFileInput" accept=".mp3,.wav,.m4a,audio/*" class="d-none">
+                                <button id="btnUpload" class="btn btn-outline-custom py-2 rounded-pill fw-bold">
+                                    <i class="fa-solid fa-cloud-arrow-up me-2"></i><span data-i18n="btn_upload_audio">Tải file âm thanh (.mp3, .wav) lên</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PAGE: BATCH -->
+        <section class="page-section" id="pageBatch">
+            <div class="page-header">
+                <h1><i class="fa-solid fa-layer-group me-2 text-primary"></i><span data-i18n="batch_modal_title">Chấm điểm hàng loạt</span></h1>
+                <p data-i18n="batch_modal_alert">Tải lên nhiều file âm thanh cùng lúc. Hệ thống tự động chấm và lưu vào lịch sử.</p>
+            </div>
+            <div class="page-body">
+                <div class="row g-4">
+                    <div class="col-lg-6">
+                        <div class="custom-card p-4">
+                            <h6 class="fw-bold mb-3 dynamic-text"><i class="fa-solid fa-gear me-2 text-primary"></i><span data-i18n="batch_step1_title">1. Cấu hình Đề bài</span></h6>
+                            <div class="mb-3">
+                                <label class="form-label fw-bold dynamic-text small text-uppercase" data-i18n="batch_part_label">Chọn Phần Thi</label>
+                                <select id="batchExamPartSelect" class="form-select custom-select shadow-sm">
+                                    <option value="part1" selected data-i18n="exam_part_1">Part 1: Social Interaction (3 Phút)</option>
+                                    <option value="part2" data-i18n="exam_part_2">Part 2: Solution Discussion (3 Phút)</option>
+                                    <option value="part3" data-i18n="exam_part_3">Part 3: Topic Development (4 Phút)</option>
+                                </select>
+                            </div>
+                            <div class="mb-2 d-flex justify-content-between align-items-center">
+                                <label class="form-label fw-bold dynamic-text small text-uppercase mb-0" data-i18n="batch_topic_label">Nội dung đề bài</label>
+                                <div>
+                                    <span id="batchTopicBadge" class="badge custom-badge px-3 py-1 me-2" style="font-size:.75rem;">TOPIC</span>
+                                    <input type="file" id="batchTxtUploadInput" accept=".txt" class="d-none">
+                                    <button id="btnUploadBatchTxt" class="btn btn-sm btn-outline-primary shadow-sm" title="Tải file .txt"><i class="fa-solid fa-file-arrow-up"></i></button>
+                                </div>
+                            </div>
+                            <textarea id="batchTopicInput" class="form-control custom-textarea dynamic-text fw-medium fs-6 lh-base shadow-none" rows="3">Let's talk about your hometown. Where is your hometown? What do you like most about it?</textarea>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="custom-card p-4">
+                            <h6 class="fw-bold mb-3 dynamic-text"><i class="fa-solid fa-file-audio me-2 text-primary"></i><span data-i18n="batch_step2_title">2. Tải lên File Âm Thanh</span></h6>
+                            <div class="text-center mb-3">
+                                <input type="file" id="batchFileInput" accept=".mp3,.wav,.m4a,audio/*" class="form-control d-none" multiple>
+                                <button id="btnSelectBatch" class="btn btn-primary-custom btn-lg py-3 px-5 rounded-pill fw-bold shadow">
+                                    <i class="fa-solid fa-folder-open me-2"></i><span data-i18n="batch_btn_select">Chọn nhiều file âm thanh</span>
+                                </button>
+                                <div id="batchFileCount" class="mt-2 text-muted fw-medium small dynamic-text" data-i18n="batch_no_files">Chưa chọn file nào.</div>
+                            </div>
+                            <div class="mt-3">
+                                <button type="button" id="btnStartBatch" class="btn btn-primary rounded-pill px-4 shadow-sm w-100" disabled>
+                                    <i class="fa-solid fa-play me-2"></i><span data-i18n="batch_btn_start">Bắt đầu chấm</span>
+                                </button>
+                            </div>
+                            <div id="batchProgressContainer" style="display:none;" class="mt-3">
+                                <h6 class="fw-bold mb-2 dynamic-text"><span data-i18n="batch_progress_title">Tiến trình:</span> <span id="batchProgressText" class="text-primary">0/0</span></h6>
+                                <div class="progress mb-3" style="height:10px;">
+                                    <div id="batchProgressBar" class="progress-bar progress-bar-striped progress-bar-animated bg-primary" style="width:0%"></div>
+                                </div>
+                                <div class="card bg-transparent border" style="border-color:var(--border)!important;">
+                                    <div class="card-header bg-transparent fw-bold small py-2 dynamic-text" data-i18n="batch_file_details">Chi tiết các file</div>
+                                    <ul class="list-group list-group-flush custom-list-scroll" id="batchFileList"></ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PAGE: COMPARE -->
+        <section class="page-section" id="pageCompare">
+            <div class="page-header">
+                <h1><i class="fa-solid fa-scale-balanced me-2" style="color:#06b6d4;"></i><span data-i18n="compare_title">So sánh AI vs Giáo Viên</span></h1>
+                <p data-i18n="compare_subtitle">Nhập điểm giáo viên để đối chiếu với kết quả AI và phân tích mức độ đồng thuận.</p>
+            </div>
+            <div class="page-body">
+                <div class="kpi-grid">
+                    <div class="kpi-card">
+                        <div class="kpi-icon indigo"><i class="fa-solid fa-file-audio"></i></div>
+                        <div><div class="kpi-value" id="kpiTotalFiles">0</div><div class="kpi-label" data-i18n="kpi_total_files">File đã chấm</div></div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-icon cyan"><i class="fa-solid fa-bullseye"></i></div>
+                        <div><div class="kpi-value" id="kpiAgreement">--%</div><div class="kpi-label" data-i18n="kpi_agreement">Đồng thuận AI-GV</div></div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-icon amber"><i class="fa-solid fa-ruler"></i></div>
+                        <div><div class="kpi-value" id="kpiMAE">--</div><div class="kpi-label" data-i18n="kpi_mae">Sai số trung bình (MAE)</div></div>
+                    </div>
+                </div>
+                <div class="agreement-section" id="agreementSection" style="display:none;">
+                    <div class="agreement-label">
+                        <span><i class="fa-solid fa-handshake me-2" style="color:#06b6d4;"></i><span data-i18n="agreement_label">Tỷ lệ đồng thuận tổng thể</span></span>
+                        <span id="agreementPct" class="fw-bold" style="font-size:1.1rem;">--%</span>
+                    </div>
+                    <div class="agreement-bar-track">
+                        <div class="agreement-bar-fill good" id="agreementBarFill" style="width:0%;"></div>
+                    </div>
+                    <div class="agreement-hint" id="agreementHint"></div>
+                </div>
+                <div class="d-flex align-items-center gap-2 mb-3 flex-wrap">
+                    <button class="btn btn-sm btn-outline-primary rounded-pill px-3" id="btnAutoDetect">
+                        <i class="fa-solid fa-wand-magic-sparkles me-1"></i><span data-i18n="btn_auto_detect">Auto-detect điểm GV từ tên file</span>
+                    </button>
+                    <button class="btn btn-sm btn-success rounded-pill px-3" id="btnSaveTeacherScores">
+                        <i class="fa-solid fa-floppy-disk me-1"></i><span data-i18n="btn_save_gv">Lưu điểm GV</span>
+                    </button>
+                    <button class="btn btn-sm btn-outline-secondary rounded-pill px-3" id="btnRenderDashboard">
+                        <i class="fa-solid fa-chart-bar me-1"></i><span data-i18n="btn_show_dashboard">Cập nhật biểu đồ</span>
+                    </button>
+                </div>
+                <div class="criteria-table-wrapper mb-4">
+                    <table class="criteria-table" id="comparisonTable">
+                        <thead>
+                            <tr>
+                                <th rowspan="2" style="text-align:left;min-width:150px;" data-i18n="col_filename">Tên file</th>
+                                <th colspan="2">Grammar</th>
+                                <th colspan="2">Vocab</th>
+                                <th colspan="2">Pronun</th>
+                                <th colspan="2">Fluency</th>
+                                <th rowspan="2" data-i18n="col_ai_total">AI Tổng</th>
+                                <th rowspan="2" data-i18n="col_gv_score">Điểm GV</th>
+                                <th rowspan="2" data-i18n="col_match">Khớp %</th>
+                            </tr>
+                            <tr>
+                                <th>AI</th><th>GV*</th><th>AI</th><th>GV*</th><th>AI</th><th>GV*</th><th>AI</th><th>GV*</th>
+                            </tr>
+                        </thead>
+                        <tbody id="comparisonTableBody">
+                            <tr><td colspan="12" class="text-center py-5" style="color:var(--text-muted);"><i class="fa-solid fa-layer-group fs-1 mb-3 d-block opacity-25"></i><span data-i18n="compare_empty">Chưa có dữ liệu. Hãy chấm bài trước.</span></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <small class="text-muted d-block mb-4" style="font-size:.73rem;" data-i18n="compare_gv_note">* GV* = ước tính từng tiêu chí từ điểm tổng GV. Nhập điểm GV để tính Khớp %.</small>
+                <div class="custom-card p-4" id="chartSection" style="display:none;">
+                    <h6 class="fw-bold mb-3 dynamic-text"><i class="fa-solid fa-chart-bar me-2 text-primary"></i><span data-i18n="chart_title">Biểu đồ AI vs Giáo Viên</span></h6>
+                    <div class="chart-container"><canvas id="comparisonChart"></canvas></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PAGE: HISTORY -->
+        <section class="page-section" id="pageHistory">
+            <div class="page-header">
+                <h1><i class="fa-solid fa-clock-rotate-left me-2 text-primary"></i><span data-i18n="tab_history">Lịch sử</span></h1>
+                <p data-i18n="page_history_subtitle">Tất cả bài nói đã chấm điểm bằng AI.</p>
+            </div>
+            <div class="page-body">
+                <div class="custom-card p-4">
+                    <div id="historyContainerFull" class="history-list">
+                        <div class="text-center my-5 dynamic-text opacity-75">
+                            <i class="fa-solid fa-folder-open fs-1 mb-3"></i>
+                            <p data-i18n="history_empty">Chưa có dữ liệu lịch sử luyện tập.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div><!-- /#mainContent -->
+</div><!-- /.app-shell -->
+
+<!-- RUBRIC MODAL (Admin-only) -->
+<div class="modal fade" id="rubricModal" tabindex="-1" aria-labelledby="rubricModalLabel" aria-hidden="true" data-bs-backdrop="static">
+    <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content custom-card border-0 shadow-lg">
+            <div class="modal-header border-bottom custom-border pb-3">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="rounded-3 text-white d-flex align-items-center justify-content-center shadow-sm" style="width:42px;height:42px;background:linear-gradient(135deg,#8b5cf6,#d946ef);">
+                        <i class="fa-solid fa-sliders fs-5"></i>
+                    </div>
+                    <div>
+                        <h5 class="modal-title fw-bold dynamic-text mb-0" id="rubricModalLabel" data-i18n="rubric_modal_title">Cấu hình Rubric Chấm điểm VSTEP</h5>
+                        <small class="text-muted dynamic-text opacity-75" data-i18n="rubric_modal_subtitle">Tùy chỉnh trọng số, tiêu chuẩn band điểm B1-B2-C1 và phong cách giám khảo AI</small>
+                    </div>
+                </div>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="btnCloseRubricModalTop"></button>
+            </div>
+            <div class="modal-body p-4">
+                <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-4 p-2 px-3 rounded-3 bg-body-tertiary border border-secondary border-opacity-10 shadow-sm">
+                    <div class="d-flex align-items-center gap-2"><i class="fa-solid fa-language text-primary fs-5"></i><span class="small fw-bold dynamic-text" data-i18n="rubric_preset_label">Mẫu chuẩn ngôn ngữ:</span></div>
+                    <div class="btn-group shadow-sm" role="group">
+                        <button type="button" class="btn btn-sm btn-outline-primary active" id="btnPresetEnglish" data-i18n="rubric_preset_en_btn">&#127468;&#127463; Tiếng Anh (CEFR)</button>
+                        <button type="button" class="btn btn-sm btn-outline-secondary" id="btnPresetVietnamese" data-i18n="rubric_preset_vi_btn">&#127487;&#127475; Tiếng Việt</button>
+                    </div>
+                </div>
+                <ul class="nav nav-pills custom-rubric-pills mb-4 gap-2" id="rubricTab" role="tablist">
+                    <li class="nav-item" role="presentation"><button class="nav-link active rounded-pill px-3 py-2 fw-semibold" id="rubric-weights-tab" data-bs-toggle="pill" data-bs-target="#rubric-weights" type="button"><i class="fa-solid fa-scale-balanced me-2"></i><span data-i18n="rubric_tab_weights">1. Tiêu chí &amp; Trọng số</span></button></li>
+                    <li class="nav-item" role="presentation"><button class="nav-link rounded-pill px-3 py-2 fw-semibold" id="rubric-descriptors-tab" data-bs-toggle="pill" data-bs-target="#rubric-descriptors" type="button"><i class="fa-solid fa-graduation-cap me-2"></i><span data-i18n="rubric_tab_descriptors">2. Barem mốc điểm (B1-B2-C1)</span></button></li>
+                    <li class="nav-item" role="presentation"><button class="nav-link rounded-pill px-3 py-2 fw-semibold" id="rubric-settings-tab" data-bs-toggle="pill" data-bs-target="#rubric-settings" type="button"><i class="fa-solid fa-user-gear me-2"></i><span data-i18n="rubric_tab_settings">3. Giám khảo AI &amp; WPM</span></button></li>
+                </ul>
+                <div class="tab-content" id="rubricTabContent">
+                    <div class="tab-pane fade show active" id="rubric-weights" role="tabpanel">
+                        <div class="card border-0 mb-4 p-3 rounded-3 rubric-summary-card shadow-sm">
+                            <div class="d-flex justify-content-between align-items-center mb-2 flex-wrap gap-2">
+                                <div class="d-flex align-items-center gap-2">
+                                    <span class="fw-bold dynamic-text small text-uppercase"><i class="fa-solid fa-chart-pie me-2 text-primary"></i><span data-i18n="rubric_total_weight_label">Tổng trọng số:</span></span>
+                                    <button type="button" id="btnAutoBalanceWeights" class="btn btn-outline-primary btn-sm rounded-pill px-2 py-0" style="font-size:.72rem;"><i class="fa-solid fa-wand-magic-sparkles me-1"></i><span data-i18n="rubric_balance_btn">Chia đều (25%)</span></button>
+                                </div>
+                                <span id="rubricTotalWeightBadge" class="badge bg-success fs-6 px-3 py-1 rounded-pill">100% (Hợp lệ)</span>
+                            </div>
+                            <div class="progress" style="height:12px;border-radius:6px;"><div id="rubricWeightProgressBar" class="progress-bar bg-success" style="width:100%;"></div></div>
+                            <small id="rubricWeightAlert" class="mt-2 text-muted dynamic-text opacity-75" style="font-size:.78rem;">Tổng trọng số 4 tiêu chí phải đúng 100%.</small>
+                        </div>
+                        <div class="row g-3">
+                            <div class="col-md-6"><div class="card border-0 p-3 rounded-3 rubric-criterion-card shadow-sm h-100">
+                                <div class="d-flex justify-content-between align-items-center mb-2"><div class="d-flex align-items-center gap-2"><i class="fa-solid fa-spell-check text-primary fs-5"></i><span class="fw-bold dynamic-text" id="rubric_title_grammar">Ngữ pháp</span></div><div class="d-flex align-items-center gap-1"><input type="number" id="rubric_weight_grammar_num" class="form-control form-control-sm text-center fw-bold rubric-weight-input" style="width:65px;" min="0" max="100" step="5" value="25"><span class="dynamic-text small fw-bold">%</span></div></div>
+                                <input type="range" class="form-range mb-2 rubric-weight-range" id="rubric_weight_grammar_range" min="0" max="100" step="5" value="25">
+                                <label class="form-label dynamic-text small text-muted opacity-75 mb-1" data-i18n="rubric_crit_desc_label">Mô tả tiêu chí:</label>
+                                <textarea id="rubric_desc_grammar" class="form-control form-control-sm custom-textarea dynamic-text" rows="2"></textarea>
+                            </div></div>
+                            <div class="col-md-6"><div class="card border-0 p-3 rounded-3 rubric-criterion-card shadow-sm h-100">
+                                <div class="d-flex justify-content-between align-items-center mb-2"><div class="d-flex align-items-center gap-2"><i class="fa-solid fa-book-bookmark text-success fs-5"></i><span class="fw-bold dynamic-text" id="rubric_title_vocabulary">Từ vựng</span></div><div class="d-flex align-items-center gap-1"><input type="number" id="rubric_weight_vocabulary_num" class="form-control form-control-sm text-center fw-bold rubric-weight-input" style="width:65px;" min="0" max="100" step="5" value="25"><span class="dynamic-text small fw-bold">%</span></div></div>
+                                <input type="range" class="form-range mb-2 rubric-weight-range" id="rubric_weight_vocabulary_range" min="0" max="100" step="5" value="25">
+                                <label class="form-label dynamic-text small text-muted opacity-75 mb-1" data-i18n="rubric_crit_desc_label">Mô tả tiêu chí:</label>
+                                <textarea id="rubric_desc_vocabulary" class="form-control form-control-sm custom-textarea dynamic-text" rows="2"></textarea>
+                            </div></div>
+                            <div class="col-md-6"><div class="card border-0 p-3 rounded-3 rubric-criterion-card shadow-sm h-100">
+                                <div class="d-flex justify-content-between align-items-center mb-2"><div class="d-flex align-items-center gap-2"><i class="fa-solid fa-microphone-lines text-warning fs-5"></i><span class="fw-bold dynamic-text" id="rubric_title_pronunciation">Phát âm</span></div><div class="d-flex align-items-center gap-1"><input type="number" id="rubric_weight_pronunciation_num" class="form-control form-control-sm text-center fw-bold rubric-weight-input" style="width:65px;" min="0" max="100" step="5" value="25"><span class="dynamic-text small fw-bold">%</span></div></div>
+                                <input type="range" class="form-range mb-2 rubric-weight-range" id="rubric_weight_pronunciation_range" min="0" max="100" step="5" value="25">
+                                <label class="form-label dynamic-text small text-muted opacity-75 mb-1" data-i18n="rubric_crit_desc_label">Mô tả tiêu chí:</label>
+                                <textarea id="rubric_desc_pronunciation" class="form-control form-control-sm custom-textarea dynamic-text" rows="2"></textarea>
+                            </div></div>
+                            <div class="col-md-6"><div class="card border-0 p-3 rounded-3 rubric-criterion-card shadow-sm h-100">
+                                <div class="d-flex justify-content-between align-items-center mb-2"><div class="d-flex align-items-center gap-2"><i class="fa-solid fa-bolt text-info fs-5"></i><span class="fw-bold dynamic-text" id="rubric_title_fluency">Trôi chảy</span></div><div class="d-flex align-items-center gap-1"><input type="number" id="rubric_weight_fluency_num" class="form-control form-control-sm text-center fw-bold rubric-weight-input" style="width:65px;" min="0" max="100" step="5" value="25"><span class="dynamic-text small fw-bold">%</span></div></div>
+                                <input type="range" class="form-range mb-2 rubric-weight-range" id="rubric_weight_fluency_range" min="0" max="100" step="5" value="25">
+                                <label class="form-label dynamic-text small text-muted opacity-75 mb-1" data-i18n="rubric_crit_desc_label">Mô tả tiêu chí:</label>
+                                <textarea id="rubric_desc_fluency" class="form-control form-control-sm custom-textarea dynamic-text" rows="2"></textarea>
+                            </div></div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="rubric-descriptors" role="tabpanel">
+                        <div class="alert alert-info border-0 shadow-sm mb-4"><i class="fa-solid fa-circle-info me-2"></i><span data-i18n="rubric_desc_info">Mô tả tiêu chuẩn từng mức điểm VSTEP. AI dùng để phân cấp điểm chính xác.</span></div>
+                        <div class="accordion custom-rubric-accordion" id="rubricAccordion">
+                            <div class="accordion-item border-0 mb-3 rounded-3 overflow-hidden shadow-sm">
+                                <h2 class="accordion-header"><button class="accordion-button fw-bold dynamic-text" type="button" data-bs-toggle="collapse" data-bs-target="#collapseGrammar"><i class="fa-solid fa-spell-check me-2 text-primary"></i><span data-i18n="rubric_desc_grammar_title">Tiêu chuẩn: Ngữ pháp</span></button></h2>
+                                <div id="collapseGrammar" class="accordion-collapse collapse show" data-bs-parent="#rubricAccordion"><div class="accordion-body">
+                                    <div class="mb-3"><label class="form-label fw-bold dynamic-text small text-success"><span class="badge bg-success bg-opacity-25 text-success me-1">Band C1</span></label><textarea id="rubric_c1_grammar" class="form-control custom-textarea dynamic-text" rows="2"></textarea></div>
+                                    <div class="mb-3"><label class="form-label fw-bold dynamic-text small text-primary"><span class="badge bg-primary bg-opacity-25 text-primary me-1">Band B2</span></label><textarea id="rubric_b2_grammar" class="form-control custom-textarea dynamic-text" rows="2"></textarea></div>
+                                    <div><label class="form-label fw-bold dynamic-text small text-warning"><span class="badge bg-warning bg-opacity-25 text-warning me-1">Band B1</span></label><textarea id="rubric_b1_grammar" class="form-control custom-textarea dynamic-text" rows="2"></textarea></div>
+                                </div></div>
+                            </div>
+                            <div class="accordion-item border-0 mb-3 rounded-3 overflow-hidden shadow-sm">
+                                <h2 class="accordion-header"><button class="accordion-button collapsed fw-bold dynamic-text" type="button" data-bs-toggle="collapse" data-bs-target="#collapseVocab"><i class="fa-solid fa-book-bookmark me-2 text-success"></i><span data-i18n="rubric_desc_vocab_title">Tiêu chuẩn: Từ vựng</span></button></h2>
+                                <div id="collapseVocab" class="accordion-collapse collapse" data-bs-parent="#rubricAccordion"><div class="accordion-body">
+                                    <div class="mb-3"><label class="form-label fw-bold dynamic-text small text-success"><span class="badge bg-success bg-opacity-25 text-success me-1">Band C1</span></label><textarea id="rubric_c1_vocabulary" class="form-control custom-textarea dynamic-text" rows="2"></textarea></div>
+                                    <div class="mb-3"><label class="form-label fw-bold dynamic-text small text-primary"><span class="badge bg-primary bg-opacity-25 text-primary me-1">Band B2</span></label><textarea id="rubric_b2_vocabulary" class="form-control custom-textarea dynamic-text" rows="2"></textarea></div>
+                                    <div><label class="form-label fw-bold dynamic-text small text-warning"><span class="badge bg-warning bg-opacity-25 text-warning me-1">Band B1</span></label><textarea id="rubric_b1_vocabulary" class="form-control custom-textarea dynamic-text" rows="2"></textarea></div>
+                                </div></div>
+                            </div>
+                            <div class="accordion-item border-0 mb-3 rounded-3 overflow-hidden shadow-sm">
+                                <h2 class="accordion-header"><button class="accordion-button collapsed fw-bold dynamic-text" type="button" data-bs-toggle="collapse" data-bs-target="#collapsePronun"><i class="fa-solid fa-microphone-lines me-2 text-warning"></i><span data-i18n="rubric_desc_pronun_title">Tiêu chuẩn: Phát âm</span></button></h2>
+                                <div id="collapsePronun" class="accordion-collapse collapse" data-bs-parent="#rubricAccordion"><div class="accordion-body">
+                                    <div class="mb-3"><label class="form-label fw-bold dynamic-text small text-success"><span class="badge bg-success bg-opacity-25 text-success me-1">Band C1</span></label><textarea id="rubric_c1_pronunciation" class="form-control custom-textarea dynamic-text" rows="2"></textarea></div>
+                                    <div class="mb-3"><label class="form-label fw-bold dynamic-text small text-primary"><span class="badge bg-primary bg-opacity-25 text-primary me-1">Band B2</span></label><textarea id="rubric_b2_pronunciation" class="form-control custom-textarea dynamic-text" rows="2"></textarea></div>
+                                    <div><label class="form-label fw-bold dynamic-text small text-warning"><span class="badge bg-warning bg-opacity-25 text-warning me-1">Band B1</span></label><textarea id="rubric_b1_pronunciation" class="form-control custom-textarea dynamic-text" rows="2"></textarea></div>
+                                </div></div>
+                            </div>
+                            <div class="accordion-item border-0 mb-3 rounded-3 overflow-hidden shadow-sm">
+                                <h2 class="accordion-header"><button class="accordion-button collapsed fw-bold dynamic-text" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFluency"><i class="fa-solid fa-bolt me-2 text-info"></i><span data-i18n="rubric_desc_fluency_title">Tiêu chuẩn: Trôi chảy</span></button></h2>
+                                <div id="collapseFluency" class="accordion-collapse collapse" data-bs-parent="#rubricAccordion"><div class="accordion-body">
+                                    <div class="mb-3"><label class="form-label fw-bold dynamic-text small text-success"><span class="badge bg-success bg-opacity-25 text-success me-1">Band C1</span></label><textarea id="rubric_c1_fluency" class="form-control custom-textarea dynamic-text" rows="2"></textarea></div>
+                                    <div class="mb-3"><label class="form-label fw-bold dynamic-text small text-primary"><span class="badge bg-primary bg-opacity-25 text-primary me-1">Band B2</span></label><textarea id="rubric_b2_fluency" class="form-control custom-textarea dynamic-text" rows="2"></textarea></div>
+                                    <div><label class="form-label fw-bold dynamic-text small text-warning"><span class="badge bg-warning bg-opacity-25 text-warning me-1">Band B1</span></label><textarea id="rubric_b1_fluency" class="form-control custom-textarea dynamic-text" rows="2"></textarea></div>
+                                </div></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="rubric-settings" role="tabpanel">
+                        <div class="card border-0 p-4 rounded-3 rubric-summary-card shadow-sm mb-4">
+                            <h6 class="fw-bold dynamic-text mb-3"><i class="fa-solid fa-user-tie me-2 text-primary"></i><span data-i18n="rubric_settings_sec1">1. Phong cách Giám khảo AI</span></h6>
+                            <div class="row g-3 mb-3">
+                                <div class="col-md-6"><label class="form-label dynamic-text small fw-bold text-uppercase" data-i18n="rubric_strictness_label">Mức độ khắt khe</label><select id="rubricStrictnessSelect" class="form-select custom-select shadow-sm"><option value="standard" selected data-i18n="rubric_strictness_standard">Chuẩn VSTEP</option><option value="strict" data-i18n="rubric_strictness_strict">Khắt khe (C1)</option><option value="lenient" data-i18n="rubric_strictness_lenient">Khuyến khích (B1)</option></select></div>
+                                <div class="col-md-6"><label class="form-label dynamic-text small fw-bold text-uppercase" data-i18n="rubric_lang_label">Ngôn ngữ nhận xét</label><select id="rubricLanguageSelect" class="form-select custom-select shadow-sm"><option value="vi" selected data-i18n="rubric_lang_vi">Tiếng Việt</option><option value="en" data-i18n="rubric_lang_en">English</option></select></div>
+                                <div class="col-md-6"><label class="form-label dynamic-text small fw-bold text-uppercase" data-i18n="rubric_max_errors_label">Số lỗi tối đa</label><input type="number" id="rubricMaxFeedbackInput" class="form-control shadow-sm" min="2" max="6" value="3"><small class="text-muted dynamic-text opacity-75" data-i18n="rubric_max_errors_hint">Khuyến nghị 2-4.</small></div>
+                            </div>
+                            <hr class="custom-border my-4">
+                            <h6 class="fw-bold dynamic-text mb-3"><i class="fa-solid fa-gauge-high me-2 text-primary"></i><span data-i18n="rubric_settings_sec2">2. Ngưỡng WPM</span></h6>
+                            <div class="row g-3">
+                                <div class="col-md-6"><label class="form-label dynamic-text small fw-bold text-uppercase" data-i18n="rubric_min_wpm_label">Min WPM</label><input type="number" id="rubricMinWpmInput" class="form-control shadow-sm" min="60" max="140" value="110"></div>
+                                <div class="col-md-6"><label class="form-label dynamic-text small fw-bold text-uppercase" data-i18n="rubric_max_wpm_label">Max WPM</label><input type="number" id="rubricMaxWpmInput" class="form-control shadow-sm" min="120" max="220" value="150"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer border-top custom-border d-flex justify-content-between align-items-center">
+                <div class="d-flex align-items-center gap-2 flex-wrap">
+                    <button type="button" id="btnResetRubric" class="btn btn-outline-warning btn-sm rounded-pill px-3 shadow-sm"><i class="fa-solid fa-arrow-rotate-left me-1"></i><span data-i18n="rubric_btn_reset">Khôi phục mặc định</span></button>
+                    <button type="button" id="btnExportRubric" class="btn btn-outline-secondary btn-sm rounded-pill px-3 shadow-sm"><i class="fa-solid fa-file-arrow-down me-1"></i><span data-i18n="rubric_btn_export">Xuất file JSON</span></button>
+                    <input type="file" id="importRubricFileInput" accept=".json" class="d-none">
+                    <button type="button" id="btnImportRubricTrigger" class="btn btn-outline-secondary btn-sm rounded-pill px-3 shadow-sm"><i class="fa-solid fa-file-arrow-up me-1"></i><span data-i18n="rubric_btn_import">Nhập file JSON</span></button>
+                </div>
+                <div class="d-flex align-items-center gap-2">
+                    <button type="button" class="btn btn-secondary rounded-pill px-4 shadow-sm" data-bs-dismiss="modal" id="btnCloseRubricModal" data-i18n="rubric_btn_close">Đóng</button>
+                    <button type="button" id="btnSaveRubric" class="btn btn-primary rounded-pill px-4 shadow-sm fw-bold"><i class="fa-solid fa-floppy-disk me-2"></i><span data-i18n="rubric_btn_save">Lưu cấu hình</span></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="translations.js"></script>
+<script src="script.js?v=4.0"></script>
+</body>
+</html>

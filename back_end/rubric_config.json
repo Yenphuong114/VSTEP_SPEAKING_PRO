@@ -1,0 +1,111 @@
+{
+    "version": "2.0",
+    "name": "Barem Tiêu Chí Chấm Điểm Bài Thi Nói VSTEP – Bậc 3-5 (Bộ GD&ĐT)",
+    "description": "Barem chấm thi Nói VSTEP chính thức của Bộ GD&ĐT gồm 5 tiêu chí độc lập: Ngữ pháp, Từ vựng, Phát âm, Độ lưu loát, Bố cục nội dung theo thang điểm 0-10.",
+    "settings": {
+        "examiner_strictness": "standard",
+        "feedback_language": "vi",
+        "max_feedback_items": 4,
+        "wpm_range": {
+            "min": 110,
+            "max": 150
+        }
+    },
+    "criteria": {
+        "grammar": {
+            "name": "Ngữ pháp (Grammar)",
+            "sub_criteria": "Phạm vi & Độ chính xác",
+            "weight": 0.2,
+            "description": "Đa dạng cấu trúc câu đơn/phức, mức độ chính xác, khả năng kiểm soát lỗi và tự sửa lỗi.",
+            "band_descriptors": {
+                "0": "Thí sinh không dự thi.",
+                "1": "Chỉ sử dụng được một cách hạn chế một số cấu trúc ngữ pháp và mẫu câu đơn giản đã học.",
+                "2": "Sử dụng chính xác một số cấu trúc đơn giản nhưng vẫn mắc các lỗi cơ bản một cách hệ thống; tuy nhiên, người sử dụng vẫn thể hiện được ý mình muốn truyền đạt.",
+                "3": "Sử dụng một cách khá chính xác các dạng câu đơn thường dùng trong những tình huống quen thuộc, tuy có thể còn mắc nhiều lỗi nhưng người sử dụng vẫn thể hiện được ý một cách rõ ràng.",
+                "4": "Sử dụng một cách chính xác các dạng câu đơn thường dùng trong những tình huống quen thuộc, tuy có thể còn mắc một số lỗi nhưng người sử dụng vẫn thể hiện được ý một cách rõ ràng.",
+                "5": "Sử dụng một cách chính xác các dạng câu đơn thường dùng trong những tình huống quen thuộc, tuy có thể còn mắc một số lỗi nhưng người sử dụng vẫn thể hiện được ý một cách rõ ràng. Có nỗ lực sử dụng những mẫu câu phức tuy còn mắc nhiều lỗi.",
+                "6": "Sử dụng linh hoạt và chính xác câu đơn và một số câu phức, tuy còn mắc một số lỗi sai nhưng không dẫn đến hiểu nhầm.",
+                "7": "Sử dụng linh hoạt và chính xác câu đơn và khá nhiều câu phức, tuy còn mắc một số lỗi sai trong diễn đạt một cách không hệ thống.",
+                "8": "Sử dụng linh hoạt và chính xác câu đơn và khá nhiều câu phức, tuy còn mắc một số lỗi sai nhưng có thể tự sửa được ngay.",
+                "9": "Sử dụng linh hoạt và chính xác nhiều cấu trúc câu đa dạng, tuy đôi khi còn mắc lỗi nhưng khó phát hiện.",
+                "10": "Sử dụng linh hoạt và chính xác nhiều cấu trúc câu đa dạng và hầu như không mắc lỗi."
+            }
+        },
+        "vocabulary": {
+            "name": "Từ vựng (Vocabulary)",
+            "sub_criteria": "Phạm vi & Kiểm soát",
+            "weight": 0.2,
+            "description": "Vốn từ vựng, độ chính xác ngữ cảnh, tránh lặp từ, sử dụng idioms, collocations và cách diễn đạt khác.",
+            "band_descriptors": {
+                "0": "Thí sinh không dự thi.",
+                "1": "Chỉ sử dụng được một số từ, cụm từ riêng lẻ về một số chủ đề rất quen thuộc.",
+                "2": "Sử dụng được nhiều từ, cụm từ đơn giản về các chủ đề rất quen thuộc. Chọn đúng từ và dạng thức của từ thuộc phạm vi từ nêu trên.",
+                "3": "Sử dụng được các từ vựng thuộc các chủ đề quen thuộc mặc dù thường xuyên lặp từ.",
+                "4": "Sử dụng được các từ vựng thuộc các chủ đề quen thuộc và đôi lúc còn dùng lặp các từ vựng này. Có nỗ lực sử dụng từ vựng thuộc các chủ đề không quen thuộc nhưng còn mắc nhiều lỗi về dùng từ.",
+                "5": "Sử dụng được các từ vựng thuộc các chủ đề quen thuộc và đôi lúc còn dùng lặp các từ vựng này. Có nỗ lực sử dụng từ vựng thuộc các chủ đề không quen thuộc nhưng còn mắc một số lỗi về dùng từ.",
+                "6": "Sử dụng được các từ vựng thuộc về hầu hết các chủ đề quen thuộc và đôi lúc có nỗ lực tránh lặp từ khi sử dụng các từ vựng thuộc các chủ đề không quen thuộc. Có độ chính xác từ vựng tương đối cao tuy vẫn còn lỗi về dùng từ và dạng thức từ.",
+                "7": "Sử dụng được các từ vựng thuộc về hầu hết các chủ đề quen thuộc và có nỗ lực tránh lặp từ với khi sử dụng các từ vựng thuộc các chủ đề không quen thuộc. Có độ chính xác từ vựng khá cao mặc dù vẫn lúng túng khi chọn từ và đôi lúc dùng từ còn sai.",
+                "8": "Sử dụng được các từ vựng thuộc về hầu hết các chủ đề quen thuộc và rất nỗ lực tránh lặp từ khi sử dụng các từ vựng thuộc các chủ đề không quen thuộc. Có nỗ lực trong việc sử dụng những từ ít quen thuộc và những cách diễn đạt kiểu thành ngữ. Có độ chính xác từ vựng khá cao mặc dù vẫn lúng túng khi chọn từ và đôi lúc dùng từ còn sai.",
+                "9": "Có lượng từ vựng lớn, gồm cả các từ không quen thuộc, các cách diễn đạt kiểu thành ngữ và lối nói thông tục. Chủ động tìm những cách diễn đạt khác và/hoặc các cách nói tránh tuy đôi lúc còn ngập ngừng. Đôi khi vẫn lỡ lời và vẫn mắc một vài lỗi từ vựng nhỏ.",
+                "10": "Có lượng từ vựng lớn, gồm cả các từ không quen thuộc, các cách diễn đạt kiểu thành ngữ và lối nói thông tục. Chủ động tìm những cách diễn đạt khác và/hoặc các cách nói tránh mà hầu như không ngập ngừng. Hầu như không lỡ lời và không mắc những lỗi từ vựng nhỏ."
+            }
+        },
+        "pronunciation": {
+            "name": "Phát âm (Pronunciation)",
+            "sub_criteria": "Âm đơn lẻ, Trọng âm, Ngữ điệu",
+            "weight": 0.2,
+            "description": "Phát âm âm đơn lẻ, trọng âm từ, trọng âm câu và ngữ điệu thể hiện sắc thái ý nghĩa.",
+            "band_descriptors": {
+                "0": "Thí sinh không dự thi.",
+                "1": "Phát âm được những từ và cụm từ rất đơn giản nhưng độ chính xác thấp, gây khó hiểu cho người nghe.",
+                "2": "Phát âm tương đối rõ ràng những từ và cụm từ đơn giản nhưng do đôi khi khó nghe nên người đối thoại vẫn phải yêu cầu nhắc lại.",
+                "3": "Phát âm rõ ràng và dễ hiểu những từ và cụm từ, tuy còn mắc khá nhiều lỗi về các âm đơn lẻ và các lỗi về âm khác.",
+                "4": "Phát âm rõ ràng và dễ hiểu những từ và cụm từ, tuy đôi khi còn mắc lỗi về các âm đơn lẻ. Có cố gắng nhấn trọng âm từ tuy còn sai nhiều.",
+                "5": "Phát âm rõ ràng và dễ hiểu những từ và cụm từ, tuy đôi khi còn mắc một số lỗi về các âm đơn lẻ. Có cố gắng nhấn trọng âm từ tuy còn chưa chính xác.",
+                "6": "Phát âm rõ ràng, tự nhiên, và dễ hiểu. Phát âm đơn lẻ hầu như rõ ràng, chính xác. Nhấn trọng âm từ tương đối chính xác và đã thể hiện sự nỗ lực trong việc nhấn trọng âm câu và ngữ điệu câu.",
+                "7": "Phát âm rõ ràng, tự nhiên, và dễ hiểu. Phát âm đơn lẻ rõ ràng, chính xác. Nhấn trọng âm từ và trọng âm câu tương đối chính xác. Có nỗ lực trong việc thể hiện ngữ điệu câu.",
+                "8": "Phát âm rõ ràng, tự nhiên, và dễ hiểu. Phát âm đơn lẻ rõ ràng, chính xác. Nhấn trọng âm từ và trọng âm câu tương đối chính xác. Rất nỗ lực trong việc thể hiện ngữ điệu câu.",
+                "9": "Phát âm, đặt trọng âm từ và câu chính xác. Có ngữ điệu câu phù hợp. Có thể thay đổi trọng âm câu để thể hiện các sắc thái ý nghĩa khác nhau.",
+                "10": "Phát âm, đặt trọng âm từ và câu chính xác. Có ngữ điệu câu phù hợp. Có thể thay đổi trọng âm câu và ngữ điệu để thể hiện các sắc thái ý nghĩa khác nhau và các chức năng khác nhau của ngôn ngữ."
+            }
+        },
+        "fluency": {
+            "name": "Độ lưu loát (Fluency)",
+            "sub_criteria": "Ngập ngừng & Nói dài",
+            "weight": 0.2,
+            "description": "Tốc độ nói, độ liền mạch, ngập ngừng tìm từ/ý, duy trì lượt lời và độ dài câu trả lời.",
+            "band_descriptors": {
+                "0": "Thí sinh không dự thi.",
+                "1": "Chỉ có thể nói một cách rời rạc, ngập ngừng những từ và cụm từ rất ngắn, phần lớn là những câu đã học thuộc.",
+                "2": "Có thể nói những cụm từ và câu ngắn một cách rất chậm chạp, thường xuyên bị lỡ lời và phải nhắc lại.",
+                "3": "Có thể diễn đạt một cách khá trôi chảy những ý đơn giản, và hầu như không diễn đạt được ý phức tạp.",
+                "4": "Có thể diễn đạt trôi chảy những ý đơn giản, và có cố gắng diễn đạt một số ý phức tạp nhưng còn chậm do phải tìm cấu trúc và từ vựng. Biết sử dụng các cụm từ và câu đơn giản để kéo dài câu trả lời.",
+                "5": "Có thể diễn đạt trôi chảy những ý đơn giản và diễn đạt được những ý phức tạp nhưng còn chậm do phải tìm cấu trúc và từ vựng. Có thể nói các đoạn dài nhưng còn mắc lỗi sai và có dấu hiệu của sửa lỗi.",
+                "6": "Có thể giao tiếp dễ dàng và tương đối lưu loát những ý đơn giản và phức tạp, có thể ngập ngừng nhưng không phải quá lâu để tìm cấu trúc và từ vựng. Có thể nói các đoạn dài nhưng còn mắc một số lỗi không hệ thống và có dấu hiệu của sửa lỗi.",
+                "7": "Có thể giao tiếp dễ dàng và tương đối lưu loát, đều đặn những ý đơn giản và phức tạp, đôi lúc còn ngập ngừng nhưng không phải quá lâu để tìm cấu trúc và từ vựng. Có thể nói các đoạn dài nhưng đôi khi còn lặp từ và còn cần sửa lỗi.",
+                "8": "Có thể giao tiếp dễ dàng, khá lưu loát, đều đặn những ý đơn giản và phức tạp, đôi lúc còn ngập ngừng, nhưng không phải mất thời gian để tìm cấu trúc và từ vựng. Có thể nói các đoạn dài tuy còn mắc một số lỗi nhỏ.",
+                "9": "Thường xuyên nói các đoạn dài và có thể diễn đạt ý một cách dễ dàng, lưu loát, tự nhiên, nhưng đôi khi còn hiện tượng lặp từ hay sửa lỗi. Hầu như không có dấu hiệu về việc ngập ngừng để tìm từ và cấu trúc, chỉ ngập ngừng khi tìm ý để diễn đạt về một số chủ đề khó về mặt khái niệm.",
+                "10": "Thường xuyên nói các đoạn dài và có thể diễn đạt ý một cách dễ dàng, lưu loát, tự nhiên, và hiếm khi có hiện tượng lặp từ hay sửa lỗi. Không có dấu hiệu về việc ngập ngừng để tìm từ và cấu trúc, chỉ ngập ngừng khi tìm ý để diễn đạt về một số chủ đề khó về mặt khái niệm."
+            }
+        },
+        "topic_development": {
+            "name": "Bố cục nội dung (Topic Development)",
+            "sub_criteria": "Phát triển chủ đề & Tính mạch lạc liên kết",
+            "weight": 0.2,
+            "description": "Mức độ phù hợp với câu hỏi, phát triển ý bằng chi tiết/ví dụ, cấu trúc chặt chẽ và sử dụng phương tiện liên kết.",
+            "band_descriptors": {
+                "0": "Thí sinh không dự thi.",
+                "1": "Hầu như không diễn đạt hoặc phát triển được ý. Chỉ có thể liên kết từ và cụm từ bằng các từ kết nối như 'và' hoặc 'thì'.",
+                "2": "Trả lời được câu hỏi nhưng nội dung trả lời chưa phù hợp và không phát triển được ý ngoài những từ khóa được gợi ý. Có thể sử dụng một số phương tiện kết nối đơn giản như 'và', 'nhưng', 'bởi vì'.",
+                "3": "Trả lời tương đối phù hợp được các câu hỏi và có thể phát triển ý nhưng mới chỉ dưới dạng liệt kê. Có thể liên kết ý bằng một số các phương tiện kết nối đơn giản nhưng hay bị lặp.",
+                "4": "Trả lời phù hợp được các câu hỏi và thể hiện cố gắng phát triển ý nhưng chỉ dưới dạng liệt kê. Có thể liên kết ý bằng một số các phương tiện kết nối đơn giản nhưng đôi khi bị lặp.",
+                "5": "Trả lời phù hợp được các câu hỏi và có thể phát triển ý dưới dạng liệt kê, tuy có dấu hiệu cố gắng mở rộng ý nhưng các ý mở rộng thường chưa rõ ràng hoặc bị lặp. Có thể liên kết ý một cách khá đa dạng khi sử dụng các phương tiện kết nối đơn giản.",
+                "6": "Có thể phát triển ý một cách tương đối dễ dàng, mở rộng ý bằng một số chi tiết và ví dụ minh họa phù hợp. Có thể sử dụng các phương tiện kết nối phức tạp hơn nhưng chưa thể hiện được rõ ràng mối quan hệ giữa các ý.",
+                "7": "Có thể phát triển ý một cách khá dễ dàng, mở rộng ý bằng những chi tiết và ví dụ minh họa phù hợp. Có thể sử dụng nhiều loại phương tiện kết nối để thể hiện khá rõ ràng mối quan hệ giữa các ý.",
+                "8": "Có thể phát triển ý một cách dễ dàng, mở rộng ý bằng những chi tiết và ví dụ minh họa phù hợp. Có thể sử dụng nhiều loại phương tiện kết nối để thể hiện rõ ràng mối quan hệ giữa các ý.",
+                "9": "Có thể dễ dàng phát triển ý một cách khá tường tận với các chi tiết và ví dụ minh họa phù hợp, và đưa ra kết luận phù hợp. Có thể trình bày ý rõ ràng, mạch lạc với cấu trúc chặt chẽ, thể hiện khả năng sử dụng khá thành thạo các phương tiện kết nối và các hình thức tổ chức ý.",
+                "10": "Có thể dễ dàng phát triển ý một cách tường tận với các chi tiết và ví dụ minh họa phù hợp, và đưa ra kết luận phù hợp. Có thể trình bày ý rõ ràng, mạch lạc với cấu trúc chặt chẽ, thể hiện khả năng sử dụng thành thạo các phương tiện kết nối và các hình thức tổ chức ý."
+            }
+        }
+    }
+}

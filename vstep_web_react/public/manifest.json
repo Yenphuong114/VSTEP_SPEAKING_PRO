@@ -1,0 +1,18 @@
+{
+  "name": "VSTEP Speaking Pro",
+  "short_name": "VSTEP Pro",
+  "description": "Hệ thống AI chấm điểm kỹ năng nói VSTEP B1-B2-C1",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0b0f19",
+  "theme_color": "#4f46e5",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "192x192 512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

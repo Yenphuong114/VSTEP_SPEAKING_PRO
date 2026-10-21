@@ -1,0 +1,26 @@
+{
+    "overall_score": 6.0,
+    "criteria_scores": {
+        "grammar": 5.5,
+        "vocabulary": 6.0,
+        "pronunciation": 5.5,
+        "fluency": 7.0
+    },
+    "detailed_feedback": [
+        {
+            "type": "Grammar",
+            "error_text": "I live in Hanoi.",
+            "explanation": "Cụm từ này không sai nhưng có thể cải thiện ngữ pháp để thêm thông tin.",
+            "correction": "I have been living in Hanoi for 5 years.",
+            "advice": "Hãy tập trung vào việc sử dụng các thì khác nhau."
+        },
+        {
+            "type": "Vocabulary",
+            "error_text": "It is very beautiful.",
+            "explanation": "Từ vựng này quá đơn giản và không đủ để mô tả chi tiết về Hanoi.",
+            "correction": "Hanoi boasts stunning landscapes and vibrant culture.",
+            "advice": "Tìm thêm từ mới để làm giàu câu trả lời."
+        }
+    ],
+    "model_answer": "I have been living in Hanoi for 5 years. It boasts stunning landscapes and vibrant culture, making it a unique place to live."
+}
