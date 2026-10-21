@@ -87,7 +87,7 @@ VSTEP_Speaking_Pro/
    ```bash
    npm run dev
    ```
-4. Mở trình duyệt tại địa chỉ hiển thị trên terminal (`http://localhost:8000/?v=2`).
+4. Mở trình duyệt tại địa chỉ (`http://localhost:8000/?v=2`).
 
 ---
 
