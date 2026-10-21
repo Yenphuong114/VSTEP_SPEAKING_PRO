@@ -95,7 +95,7 @@ VSTEP_Speaking_Pro/
 
 Dự án này là sản phẩm học tập và nghiên cứu khoa học thuộc bản quyền của tác giả.
 
-- **Tác giả / Nhà phát triển:** Phạm Thụy Yến Phương ([@Yenphuong114](https://github.com/Yenphuong114))
+- **Tác giả / Nhà phát triển:** Phạm Thùy Yến Phương ([@Yenphuong114](https://github.com/Yenphuong114))
 - **Bản quyền:** © 2026 Pham Thuy Yen Phuong. All rights reserved.
 
 ### ⚠️ Điều khoản sử dụng:
