@@ -91,6 +91,17 @@ VSTEP_Speaking_Pro/
 
 ---
 
-## 📜 Giấy phép & Bản quyền
+## 📜 Giấy phép & Bản quyền (License & Copyright)
 
-Dự án phát triển phục vụ mục đích nghiên cứu, học tập và hỗ trợ luyện thi VSTEP.
+Dự án này là sản phẩm học tập và nghiên cứu khoa học thuộc bản quyền của tác giả.
+
+- **Tác giả / Nhà phát triển:** Phạm Thụy Yến Phương ([@Yenphuong114](https://github.com/Yenphuong114))
+- **Bản quyền:** © 2026 Pham Thuy Yen Phuong. All rights reserved.
+
+### ⚠️ Điều khoản sử dụng:
+1. **Mục đích học tập:** Bạn được phép xem và tham khảo mã nguồn cho mục đích học tập cá nhân và nghiên cứu phi thương mại.
+2. **Cấm sao chép bản quyền:** Tuyệt đối **không được phép** sao chép, giả mạo, đổi tên tác giả hoặc tự nhận là sản phẩm của mình để nộp báo cáo, đồ án hoặc công bố nghiên cứu khoa học.
+3. **Cấm thương mại hóa:** Nghiêm cấm phân phối lại, bán lại mã nguồn hoặc sử dụng bất kỳ phần nào của dự án cho mục đích thương mại dưới mọi hình thức khi chưa có sự đồng ý bằng văn bản từ tác giả.
+
+> *For academic reference only. Unauthorized copying, modification, plagiarism, or commercial use is strictly prohibited without explicit written permission from the author.*
+
